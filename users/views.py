@@ -2,7 +2,7 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserRetrieveSerializer
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -20,6 +20,6 @@ class UserCreateAPIView(CreateAPIView):
 
 class UserRetrieveAPIView(RetrieveAPIView):
     """Реализация представления просмотра пользователя, через RetrieveAPIView."""
-    serializer_class = UserSerializer
+    serializer_class = UserRetrieveSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]

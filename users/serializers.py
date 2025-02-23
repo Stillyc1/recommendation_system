@@ -4,8 +4,16 @@ from users.models import User
 
 
 class UserSerializer(ModelSerializer):
-    """Класс сериализатор пользователя."""
+    """Класс сериализатор создания пользователя."""
 
     class Meta:
         model = User
-        fields = ("username",)
+        fields = ("username", "password",)
+
+
+class UserRetrieveSerializer(ModelSerializer):
+    """Класс сериализатор просмотра пользователя."""
+
+    class Meta:
+        model = User
+        fields = ("username", "name", "country", "city",)
