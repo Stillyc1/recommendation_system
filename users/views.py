@@ -2,6 +2,7 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User
+from users.permissions import IsOwner
 from users.serializers import UserSerializer, UserRetrieveSerializer
 
 
@@ -22,4 +23,4 @@ class UserRetrieveAPIView(RetrieveAPIView):
     """Реализация представления просмотра пользователя, через RetrieveAPIView."""
     serializer_class = UserRetrieveSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwner]  # Добавлен permissions.py для просмотра пользователя только самим пользователем
