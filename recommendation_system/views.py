@@ -1,14 +1,46 @@
 from rest_framework import viewsets
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.response import Response
 
-from recommendation_system.models import Film, Rating
-from recommendation_system.serializers import FilmSerializer, RatingSerializer
+from recommendation_system.models import Film, Rating, UserFilm, Genre
+from recommendation_system.serializers import FilmSerializer, RatingSerializer, GenreSerializer
 
 
-class FilmListAPIView(RetrieveAPIView):
+class FilmRetrieveAPIView(RetrieveAPIView):
     """Класс представления фильма через RetrieveAPIView"""
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+
+        if not UserFilm.objects.filter(user=user, film=instance):
+            UserFilm.objects.create(
+                user=user,
+                film=instance
+            )
+
+        if request.accepted_renderer.format == 'html':  # проверка, какой формат данных нужен пользователю (html/json)
+            return None
+        else:
+            return Response(self.get_serializer(instance).data)
+
+
+class GenreRetrieveAPIView(RetrieveAPIView):
+    """Класс представления жанра фильма через RetrieveAPIView"""
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        UserFilm.objects.create(
+            user=request.user,
+            film=instance,
+        )
+
+        return Response(self.get_serializer(instance).data)
 
 
 class RatingViewSet(viewsets.ModelViewSet):
