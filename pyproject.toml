@@ -25,6 +25,9 @@ drf-yasg = "^1.21.8"
 django-cors-headers = "^4.7.0"
 schedule = "^1.2.2"
 gunicorn = "^23.0.0"
+networkx = "^3.4.2"
+numpy = "^2.2.3"
+scipy = "^1.15.2"
 
 
 [build-system]

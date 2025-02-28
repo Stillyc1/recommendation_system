@@ -23,7 +23,7 @@ class UserFilmSerializer(ModelSerializer):
 
     class Meta:
         model = UserFilm
-        fields = '__all__'
+        fields = ['film']
 
 
 class UserGenreSerializer(ModelSerializer):
@@ -31,11 +31,11 @@ class UserGenreSerializer(ModelSerializer):
 
     class Meta:
         model = UserGenre
-        fields = '__all__'
+        fields = ['genre']
 
 
 class RatingSerializer(ModelSerializer):
     """Сериализатор модели рейтинга."""
     class Meta:
         model = Rating
-        fields = '__all__'
+        fields = ['film', 'rating']

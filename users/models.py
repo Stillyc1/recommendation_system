@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=255, unique=True, verbose_name='Имя пользователя')
+    username = models.CharField(max_length=255, unique=True, verbose_name='Никнейм')
     name = models.CharField(max_length=128, null=True, blank=True, default="Не указано",
                             verbose_name="Имя пользователя")
     country = models.CharField(max_length=128, null=True, blank=True, default="Не указано",
