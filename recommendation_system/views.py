@@ -1,4 +1,5 @@
-from rest_framework import viewsets, status
+from django.db import IntegrityError
+from rest_framework import status
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -7,8 +8,7 @@ from rest_framework.views import APIView
 from recommendation_system.models import Film, Rating, UserFilm, Genre, UserGenre
 from recommendation_system.serializers import FilmSerializer, RatingSerializer, GenreSerializer, UserFilmSerializer, \
     UserGenreSerializer
-from recommendation_system.services import build_preference_graph, calculate_pagerank, collaborative_filtering, \
-    k_nearest_neighbors
+from recommendation_system.services import RecommendationSystem
 
 
 class FilmRetrieveAPIView(RetrieveAPIView):
@@ -56,6 +56,7 @@ class PreferenceCreateAPIView(CreateAPIView):
         # Устанавливаем текущего пользователя перед сохранением
         serializer.save(user=self.request.user)
 
+
     def post(self, request, *args, **kwargs):
         data = request.data
 
@@ -67,7 +68,10 @@ class PreferenceCreateAPIView(CreateAPIView):
         elif 'film' in data:
             serializer = UserFilmSerializer(data=data)
         else:
-            return Response({"error": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "error": "Укажите предпочтения: 'rating', 'film' или 'genre' или 'film'."
+                },
+                status=status.HTTP_400_BAD_REQUEST)
 
         if serializer.is_valid():
             self.perform_create(serializer)  # Вызываем perform_create
@@ -76,18 +80,39 @@ class PreferenceCreateAPIView(CreateAPIView):
 
 
 class RecommendationAPIView(APIView):
+    """API для получения статистики на основе графов и рекомендаций."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        graph = build_preference_graph()
+        system = RecommendationSystem
+        graph = system.build_preference_graph()
 
         # Получаем рекомендации для текущего пользователя
-        pagerank_scores = calculate_pagerank(graph)
-        similar_users = collaborative_filtering(graph, request.user.id)
-        k_neighbors = k_nearest_neighbors(graph, request.user.id)
+        pagerank_scores = system.calculate_pagerank(graph)
+        similar_users = system.collaborative_filtering(graph, request.user.id)
+        k_neighbors = system.k_nearest_neighbors(graph, request.user.id)
 
         return Response({
             'pagerank_scores': pagerank_scores,
             'similar_users': similar_users,
             'k_neighbors': k_neighbors
         })
+
+
+# class RecommendationStatisticsAPIView(APIView):
+#     """API для получения статистики на основе графов и рекомендаций."""
+#     permission_classes = [IsAuthenticated]
+#
+#     def get(self, request):
+#         graph = build_preference_graph()
+#
+#         # Получаем рекомендации для текущего пользователя
+#         pagerank_scores = calculate_pagerank(graph)
+#         similar_users = collaborative_filtering(graph, request.user.id)
+#         k_neighbors = k_nearest_neighbors(graph, request.user.id)
+#
+#         return Response({
+#             'pagerank_scores': pagerank_scores,
+#             'similar_users': similar_users,
+#             'k_neighbors': k_neighbors
+#         })
