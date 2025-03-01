@@ -56,7 +56,6 @@ class PreferenceCreateAPIView(CreateAPIView):
         # Устанавливаем текущего пользователя перед сохранением
         serializer.save(user=self.request.user)
 
-
     def post(self, request, *args, **kwargs):
         data = request.data
 
@@ -84,11 +83,25 @@ class RecommendationAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        recommendation_system = RecommendationSystem
+
+        graph = recommendation_system.build_preference_graph()
+        get_recommendations = recommendation_system.get_recommendations(graph, request.user.id)
+        _, sorted_pagerank = recommendation_system.calculate_pagerank(graph)
+
+        return Response({"top": sorted_pagerank, "recommendations": get_recommendations})
+
+
+class RecommendationStatisticsAPIView(APIView):
+    """API для получения статистики на основе графов и рекомендаций."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
         system = RecommendationSystem
         graph = system.build_preference_graph()
 
         # Получаем рекомендации для текущего пользователя
-        pagerank_scores = system.calculate_pagerank(graph)
+        pagerank_scores, _ = system.calculate_pagerank(graph)
         similar_users = system.collaborative_filtering(graph, request.user.id)
         k_neighbors = system.k_nearest_neighbors(graph, request.user.id)
 
@@ -97,22 +110,3 @@ class RecommendationAPIView(APIView):
             'similar_users': similar_users,
             'k_neighbors': k_neighbors
         })
-
-
-# class RecommendationStatisticsAPIView(APIView):
-#     """API для получения статистики на основе графов и рекомендаций."""
-#     permission_classes = [IsAuthenticated]
-#
-#     def get(self, request):
-#         graph = build_preference_graph()
-#
-#         # Получаем рекомендации для текущего пользователя
-#         pagerank_scores = calculate_pagerank(graph)
-#         similar_users = collaborative_filtering(graph, request.user.id)
-#         k_neighbors = k_nearest_neighbors(graph, request.user.id)
-#
-#         return Response({
-#             'pagerank_scores': pagerank_scores,
-#             'similar_users': similar_users,
-#             'k_neighbors': k_neighbors
-#         })
