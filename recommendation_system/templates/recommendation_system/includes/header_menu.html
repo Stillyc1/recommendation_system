@@ -1,0 +1,53 @@
+{% load my_tags %}
+<header class="p-3" style="background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 text-dark">Главная</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="#" class="nav-link px-2 text-dark">Сообщения</a></li>
+                <li><a href="#" class="nav-link px-2 text-dark">Получатели</a></li>
+                <li><a href="#" class="nav-link px-2 text-dark">Рассылки</a></li>
+                <li><a href="#" class="nav-link px-2 text-dark">Статистика</a></li>
+                    {% if perms.users.can_ban_user %}
+                        <li><a href="#" class="nav-link px-2 text-dark">Пользователи</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control form-control-light" placeholder="Поиск..."
+                       aria-label="Search">
+            </form>
+
+            <div class="text-end">
+                {% if user.is_authenticated %}
+                <form method="post" action="#" style="display: inline">
+                    {% csrf_token %}
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ user.avatar | media_filter }}" alt="" width="32" height="32" class="rounded-circle me-2">
+                            <strong>{{ user.email }}</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-light text-small shadow">
+                            <li><a class="dropdown-item" href="#">Создать рассылку</a></li>
+                            <li><a class="dropdown-item" href="#">Настройки</a></li>
+                            <li><a class="dropdown-item" href="#">Профиль</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <button type="submit" class="btn dropdown-item">Выйти</button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+                {% else %}
+                <a class="btn btn-outline-primary me-2" href="#">Войти</a>
+                <a class="btn btn-primary rounded-pill" href="#">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>

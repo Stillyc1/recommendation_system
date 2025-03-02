@@ -10,6 +10,7 @@ class User(AbstractUser):
                                verbose_name="Страна")
     city = models.CharField(max_length=128, null=True, blank=True, default="Не указано",
                             verbose_name="Город")
+    avatar = models.ImageField(upload_to="users/photo/", verbose_name="Аватар", blank=True, null=True)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

@@ -1,0 +1,67 @@
+{% extends 'recommendation_system/includes/basic_design.html' %}
+{% load my_tags %}
+{% block title %}Главная страница{% endblock %}
+
+{% block header %}
+{% include 'recommendation_system/includes/header_menu.html' %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-primary" id="prevButton">Назад</button>
+        <button class="btn btn-primary" id="nextButton">Вперед</button>
+    </div>
+
+    <div class="movie-carousel">
+        <div class="row" id="movieRow">
+            <!-- Здесь будут карточки фильмов -->
+            {% for movie in films %}
+            <div class="col-6 col-md-3 movie-card">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ movie.image | media_filter}}" class="card-img-top" alt="{{ movie.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentIndex = 0; // Начальный индекс
+    const moviesPerPage = 4; // Количество фильмов на странице
+    const movieCards = document.querySelectorAll('.movie-card'); // Все карточки фильмов
+
+    function showMovies() {
+        // Скрыть все карточки
+        movieCards.forEach((card, index) => {
+            if (index >= currentIndex && index < currentIndex + moviesPerPage) {
+                card.style.display = 'block'; // Показать карточки для текущей страницы
+            } else {
+                card.style.display = 'none'; // Скрыть остальные
+            }
+        });
+    }
+
+    document.getElementById('prevButton').addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex -= moviesPerPage; // Уменьшаем индекс
+            showMovies(); // Обновляем отображение
+        }
+    });
+
+    document.getElementById('nextButton').addEventListener('click', () => {
+        if (currentIndex + moviesPerPage < movieCards.length) {
+            currentIndex += moviesPerPage; // Увеличиваем индекс
+            showMovies(); // Обновляем отображение
+        }
+    });
+
+    // Инициализация отображения
+    showMovies();
+</script>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

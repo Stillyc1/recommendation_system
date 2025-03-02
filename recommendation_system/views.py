@@ -1,14 +1,21 @@
-from django.db import IntegrityError
+from django.views.generic import ListView
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from recommendation_system.models import Film, Rating, UserFilm, Genre, UserGenre
+from recommendation_system.models import Film, UserFilm, Genre, UserGenre
 from recommendation_system.serializers import FilmSerializer, RatingSerializer, GenreSerializer, UserFilmSerializer, \
     UserGenreSerializer
 from recommendation_system.services import RecommendationSystem
+
+
+class HomePageView(ListView):
+    """Класс представление главной страницы веб-приложения."""
+    model = Film
+    template_name = "recommendation_system/home.html"
+    context_object_name = "films"
 
 
 class FilmRetrieveAPIView(RetrieveAPIView):

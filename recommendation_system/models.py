@@ -23,6 +23,8 @@ class Film(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='films')
     director = models.CharField(max_length=100, verbose_name="Режиссер")
     rating = models.FloatField(null=True, blank=True, verbose_name="Рейтинг фильма (от 1 до 10)")
+    image = models.ImageField(upload_to="recommendation_system/photo/", verbose_name="Изображение",
+                              blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
     updated_at = models.DateTimeField(auto_now=True)  # Дата последнего обновления
 
