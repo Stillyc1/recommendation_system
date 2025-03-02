@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
@@ -36,6 +37,14 @@ class ProfileUserDetailView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'users/profile_user.html'
     context_object_name = 'profile_user'
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        user_id = self.request.user.id
+        if self.object.id == user_id:
+            return self.object
+        else:
+            raise PermissionDenied
 
 
 class ProfileUserUpdateView(LoginRequiredMixin, UpdateView):

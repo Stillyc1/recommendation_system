@@ -38,7 +38,7 @@ class FormClean:
         ]
 
         for word in banned_words:
-            if word in username.lower():
+            if username and word in username.lower():
                 self.add_error(
                     "username",
                     f'Нельзя использовать слово "{word.title()}" в поле username.',

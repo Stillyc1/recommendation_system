@@ -29,13 +29,15 @@
                         <button type="submit" class="btn btn-lg btn-block btn-dark">
                             Сохранить
                         </button>
+                        <a class="btn btn-lg btn-block btn-outline-dark"
+                           href="{% url 'users:profile_user' user.pk %}">Назад</a>
                     {% else %}
                         <button type="submit" class="btn btn-lg btn-block btn-dark">
                             Регистрация
                         </button>
-                    {% endif %}
                         <a class="btn btn-lg btn-block btn-outline-dark"
                            href="{% url 'recommendation_system:home' %}">Назад</a>
+                    {% endif %}
                 </div>
             </form>
         </div>
