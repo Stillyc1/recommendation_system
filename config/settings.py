@@ -181,3 +181,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
+
+LOGIN_REDIRECT_URL = 'recommendation_system:home'
+LOGIN_URL = 'users:login'
+LOGOUT_REDIRECT_URL = 'recommendation_system:home'

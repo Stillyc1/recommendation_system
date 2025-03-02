@@ -5,25 +5,31 @@
 {% block header %}
 {% include 'recommendation_system/includes/header_menu.html' %}
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <button class="btn btn-primary" id="prevButton">Назад</button>
-        <button class="btn btn-primary" id="nextButton">Вперед</button>
-    </div>
 
-    <div class="movie-carousel">
-        <div class="row" id="movieRow">
-            <!-- Здесь будут карточки фильмов -->
-            {% for movie in films %}
-            <div class="col-6 col-md-3 movie-card">
-                <div class="card mb-4 shadow-sm">
-                    <img src="{{ movie.image | media_filter}}" class="card-img-top" alt="{{ movie.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ movie.title }}</h5>
+    <div class="d-flex align-items-center mb-3">
+        <button class="btn btn-outline-light me-2" id="prevButton" style="opacity: 0.8;">
+            <span class="material-icons">Назад</span>
+        </button>
+
+        <div class="movie-carousel flex-grow-1">
+            <div class="row" id="movieRow">
+                <!-- Здесь будут карточки фильмов -->
+                {% for movie in films %}
+                <div class="col-6 col-md-3 movie-card">
+                    <div class="card mb-4 shadow-sm" style="background-color: rgba(255, 255, 255, 0.8); border: none;">
+                        <img src="{{ movie.image | media_filter}}" width="175" height="130" class="card-img-top" alt="{{ movie.title }}" style="opacity: 1;">
+                        <div class="card-body">
+                            <h5 class="card-title text-center" style="opacity: 1;">Рейтинг {{movie.rating}}</h5>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+
+        <button class="btn btn-outline-light ms-2" id="nextButton" style="opacity: 0.8;">
+            <span class="material-icons" >Вперед</span>
+        </button>
     </div>
 </div>
 
@@ -63,5 +69,12 @@
 {% endblock %}
 
 {% block content %}
-
+    {% if not user.is_authenticated %}
+        <div class="container text-center shadow p-3 mb-5 bg-body-tertiary rounded" style="opacity: 0.7;">
+            <h2>
+                Чтобы мы могли предоставить вам качественную рекомендацию,
+                пожалуйста, войдите или зарегистрируйтесь!
+            </h2>
+        </div>
+    {% endif %}
 {% endblock %}

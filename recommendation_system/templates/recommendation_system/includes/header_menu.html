@@ -5,13 +5,8 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="#" class="nav-link px-2 text-dark">Главная</a></li>
                 {% if user.is_authenticated %}
-                <li><a href="#" class="nav-link px-2 text-dark">Сообщения</a></li>
-                <li><a href="#" class="nav-link px-2 text-dark">Получатели</a></li>
-                <li><a href="#" class="nav-link px-2 text-dark">Рассылки</a></li>
-                <li><a href="#" class="nav-link px-2 text-dark">Статистика</a></li>
-                    {% if perms.users.can_ban_user %}
-                        <li><a href="#" class="nav-link px-2 text-dark">Пользователи</a></li>
-                    {% endif %}
+                <li><a href="#" class="nav-link px-2 text-dark">Предпочтения</a></li>
+                <li><a href="#" class="nav-link px-2 text-dark">Статистика рекомендаций</a></li>
                 {% endif %}
             </ul>
 
@@ -22,7 +17,7 @@
 
             <div class="text-end">
                 {% if user.is_authenticated %}
-                <form method="post" action="#" style="display: inline">
+                <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                     {% csrf_token %}
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
@@ -31,9 +26,7 @@
                             <strong>{{ user.email }}</strong>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-light text-small shadow">
-                            <li><a class="dropdown-item" href="#">Создать рассылку</a></li>
-                            <li><a class="dropdown-item" href="#">Настройки</a></li>
-                            <li><a class="dropdown-item" href="#">Профиль</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:profile_user' user.pk %}">Профиль</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -44,8 +37,8 @@
                     </div>
                 </form>
                 {% else %}
-                <a class="btn btn-outline-primary me-2" href="#">Войти</a>
-                <a class="btn btn-primary rounded-pill" href="#">Регистрация</a>
+                <a class="btn btn-outline-dark me-2" href="{% url 'users:login' %}">Войти</a>
+                <a class="btn btn-dark rounded-pill" href="{% url 'users:register_web' %}" style="opacity: 0.9;">Регистрация</a>
                 {% endif %}
             </div>
         </div>

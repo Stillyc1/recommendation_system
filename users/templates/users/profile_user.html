@@ -1,0 +1,41 @@
+{% extends 'recommendation_system/includes/basic_design.html' %}
+{% load my_tags %}
+{% block title %}Профиль{% endblock %}
+
+{% block header %}
+{% include 'recommendation_system/includes/header_menu.html' %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-white">Профиль</h1>
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-3"></div>
+    <div class="card-body col-6 text-center">
+        <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+            <h3 class="form-label">Никнейм</h3>
+            <h1 class="form-control">{{ profile_user.username }}</h1>
+
+            <h3 class="form-label">Имя пользователя</h3>
+            <h1 class="form-control">{{ profile_user.name }}</h1>
+
+            <h3 class="form-label">Город</h3>
+            <h1 class="form-control">{{ profile_user.city }}</h1>
+
+            <h3 class="form-label">Страна</h3>
+            <h1 aria-label="Disabled input example" class="form-control">{{ profile_user.country }}</h1>
+
+            <h3 class="form-label">Аватар</h3>
+            <img src="{{ profile_user.avatar | media_filter }}" class="image" width="200" height="200">
+            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <a class="btn btn-lg btn-block btn-outline-dark ms-2" href="{% url 'users:profile_edit' profile_user.pk%}">Редактировать</a>
+                <a class="btn btn-lg btn-block btn-dark"
+                   href="{% url 'recommendation_system:home' %}">Назад</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>
+{% endblock %}
