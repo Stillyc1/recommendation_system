@@ -30,21 +30,21 @@ class UserRetrieveAPIView(RetrieveAPIView):
     """Реализация представления просмотра пользователя, через RetrieveAPIView."""
     serializer_class = UserRetrieveSerializer
     queryset = User.objects.all()
-    permission_classes = [IsOwner]  # Добавлен permissions.py для просмотра пользователя только самим пользователем
+    # IsOwner добавлен permissions.py для просмотра пользователя только самим пользователем
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class ProfileUserDetailView(LoginRequiredMixin, DetailView):
+    """Представление просмотра профиля пользователя на веб-сервере"""
     model = User
     template_name = 'users/profile_user.html'
     context_object_name = 'profile_user'
 
     def get_object(self, queryset=None):
+        """Проверяем что пользователь может смотреть только свой профиль"""
         self.object = super().get_object(queryset)
         user_id = self.request.user.id
-        if self.object.id == user_id:
-            return self.object
-        else:
-            raise PermissionDenied
+        return IsOwner.get_object_only_owner(self=self.object, user_id=user_id)
 
 
 class ProfileUserUpdateView(LoginRequiredMixin, UpdateView):
@@ -57,8 +57,14 @@ class ProfileUserUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse("users:profile_user", args=[self.kwargs.get("pk")])
 
+    def get_object(self, queryset=None):
+        """Проверяем что пользователь может смотреть только свой профиль"""
+        self.object = super().get_object(queryset)
+        user_id = self.request.user.id
+        return IsOwner.get_object_only_owner(self=self.object, user_id=user_id)
 
-class LoginUserView(LoginView):
+
+class LoginUserView(UserIsNotAuthenticated, LoginView):
     form_class = LoginUserForm
     template_name = 'users/login.html'
 

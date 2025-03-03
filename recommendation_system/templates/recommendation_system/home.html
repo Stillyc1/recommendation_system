@@ -4,7 +4,7 @@
 
 {% block header %}
 {% include 'recommendation_system/includes/header_menu.html' %}
-<div class="container">
+<div class="container mt-1 mb-5">
 
     <div class="d-flex align-items-center mb-3">
         <button class="btn btn-outline-light me-2" id="prevButton" style="opacity: 0.8;">
@@ -90,7 +90,9 @@
     </h2>
 </div>
 {% else %}
-<div class="row text-center mb-5">
+<div class="row text-center mt-5 mb-5"></div>
+<div class="row text-center mt-5 mb-5"></div>
+<div class="row text-center mt-5 mb-5">
     <div class="col-4"></div>
     <div class="col-4">
         <a class="btn btn-dark shiny-button" href="{% url 'users:login' %}">Получить рекомендацию</a>
@@ -128,9 +130,9 @@
         transform: translate(200%, 200%); /* Перемещение блеска при наведении */
     }
 </style>
-<div class="row text-center">
+<div class="row text-center ">
     <div class="col-6">
-        <div class="genre-container">
+        <div class="genre-container mt-5">
             <h3>Выберите любимые жанры фильмов</h3>
             <form method="POST" action="{% url 'recommendation_system:home' %}">
                 {% csrf_token %}
@@ -142,8 +144,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Добавить жанр</button>
-                {% if success_message %}
+                <button type="submit" class="btn btn-outline-dark mt-2">Добавить жанр</button>
+                {% if success_message == 'Жанр успешно добавлен!' %}
                 <button class="btn btn-success mt-2" disabled><i class="bi bi-check"></i> {{ success_message }}</button>
                 {% endif %}
             </form>
@@ -151,7 +153,7 @@
     </div>
 
     <div class="col-6">
-        <div class="rating-container">
+        <div class="rating-container mt-5">
             <h3>Оцените фильм</h3>
             <form method="POST" action="{% url 'recommendation_system:home' %}">
                 {% csrf_token %}
@@ -167,8 +169,8 @@
                     <label for="rating">Оценка (1-10):</label>
                     <input type="number" name="rating" id="rating" class="form-control" min="1" max="10" required>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Добавить оценку</button>
-                {% if success_message %}
+                <button type="submit" class="btn btn-outline-dark mt-2">Добавить оценку</button>
+                {% if success_message == 'Оценка успешно добавлена!'%}
                 <button class="btn btn-success mt-2" disabled><i class="bi bi-check"></i> {{ success_message }}</button>
                 {% endif %}
             </form>

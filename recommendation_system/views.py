@@ -23,7 +23,8 @@ class HomePageView(View):
     def get(self, request):
         genres = Genre.objects.all()  # Получаем все жанры
         films = Film.objects.all()  # Получаем все фильмы
-        success_message = request.session.pop('success_message', None)  # Получаем сообщение об успехе, если есть
+        # Получаем сообщение об успехе
+        success_message = request.session.pop('success_message', None)
         return render(request, self.template_name, {
             'genres': genres,
             'films': films,
@@ -137,7 +138,7 @@ class PreferenceCreateAPIView(CreateAPIView):
 
 
 class RecommendationAPIView(APIView):
-    """API для получения статистики на основе графов и рекомендаций."""
+    """API для получения рекомендаций на основе графов"""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
