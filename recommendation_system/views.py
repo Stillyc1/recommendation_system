@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
@@ -74,6 +76,7 @@ class FilmDetailView(LoginRequiredMixin, DetailView):
         return self.object
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class RecommendationView(LoginRequiredMixin, ListView):
     model = Film
     template_name = "recommendation_system/recommendation_film.html"
