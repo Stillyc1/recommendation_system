@@ -79,3 +79,20 @@ class UserGenre(models.Model):
 
     def __str__(self):
         return f"{self.user.username} предпочитает {self.genre.name}"
+
+
+class RecommendationStatistics(models.Model):
+    """Модель статистики рекомендаций для пользователя."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    film_count = models.PositiveIntegerField(verbose_name="Количество рекомендованных фильмов", null=True, blank=True,
+                                             default=0)
+    genre_count = models.PositiveIntegerField(verbose_name="Количество рекомендованных жанров", null=True, blank=True,
+                                              default=0)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Статистика {self.user} создана {self.timestamp}"
+
+    class Meta:
+        verbose_name = 'Статистика рекомендаций'
+        verbose_name_plural = 'Статистики рекомендаций'

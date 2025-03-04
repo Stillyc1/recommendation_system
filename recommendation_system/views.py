@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from recommendation_system.models import Film, UserFilm, Genre, UserGenre, Rating
+from recommendation_system.models import Film, UserFilm, Genre, UserGenre, Rating, RecommendationStatistics
 from recommendation_system.serializers import FilmSerializer, RatingSerializer, GenreSerializer, UserFilmSerializer, \
     UserGenreSerializer
 from recommendation_system.services import RecommendationSystem
@@ -81,12 +81,17 @@ class RecommendationView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-
         recommendation_system = RecommendationSystem
 
         graph = recommendation_system.build_preference_graph()
         get_recommendations = recommendation_system.get_recommendations(graph, self.request.user.id)
         _, sorted_pagerank = recommendation_system.calculate_pagerank(graph)
+
+        RecommendationStatistics.objects.create(
+            user=self.request.user,
+            film_count=len(get_recommendations["films"]),
+            genre_count=len(get_recommendations["genres"])
+        )
 
         context["top_5_films"] = Film.objects.filter(title__in=sorted_pagerank["top_5_films"][:4])
         context["top_5_genres"] = Genre.objects.filter(name__in=sorted_pagerank["top_5_genres"])
@@ -109,6 +114,16 @@ class PreferenceView(LoginRequiredMixin, ListView):
         context["ratings"] = Rating.objects.filter(user=self.request.user)
 
         return context
+
+
+class StatisticRecommendationView(LoginRequiredMixin, ListView):
+    """Представление статистики рекомендаций для пользователя."""
+    model = RecommendationStatistics
+    template_name = "recommendation_system/statistics.html"
+    context_object_name = "statistics"
+
+    def get_queryset(self):
+        return RecommendationStatistics.objects.filter(user=self.request.user)
 
 
 class FilmRetrieveAPIView(RetrieveAPIView):
@@ -185,6 +200,12 @@ class RecommendationAPIView(APIView):
         get_recommendations = recommendation_system.get_recommendations(graph, request.user.id)
         _, sorted_pagerank = recommendation_system.calculate_pagerank(graph)
 
+        RecommendationStatistics.objects.create(
+            user=request.user,
+            film_count=len(get_recommendations["films"]),
+            genre_count=len(get_recommendations["genres"])
+        )
+
         return Response({"top": sorted_pagerank, "recommendations": get_recommendations})
 
 
@@ -196,7 +217,7 @@ class RecommendationStatisticsAPIView(APIView):
         system = RecommendationSystem
         graph = system.build_preference_graph()
 
-        # Получаем рекомендации для текущего пользователя
+        # Получаем статистику рекомендации для текущего пользователя
         pagerank_scores, _ = system.calculate_pagerank(graph)
         similar_users = system.collaborative_filtering(graph, request.user.id)
         k_neighbors = system.k_nearest_neighbors(graph, request.user.id)

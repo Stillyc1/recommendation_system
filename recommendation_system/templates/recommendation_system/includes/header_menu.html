@@ -6,7 +6,7 @@
                 <li><a href="{% url 'recommendation_system:home' %}" class="nav-link px-2 text-dark">Главная</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'recommendation_system:preference' %}" class="nav-link px-2 text-dark">Предпочтения</a></li>
-                <li><a href="#" class="nav-link px-2 text-dark">Статистика рекомендаций</a></li>
+                <li><a href="{% url 'recommendation_system:statistics' %}" class="nav-link px-2 text-dark">Статистика рекомендаций</a></li>
                 {% endif %}
             </ul>
 

@@ -76,7 +76,7 @@ class RecommendationSystem:
                 genre_instance = Genre.objects.get(id=genre_id)  # Получаем объект фильма
                 top_5_genres.append(genre_instance.name)
 
-        return pagerank, {"top_5_films": list(top_5_films)[:5], "top_5_genres": list(top_5_genres)[:5]}
+        return sorted_top_nodes, {"top_5_films": list(top_5_films)[:5], "top_5_genres": list(top_5_genres)[:5]}
 
     @staticmethod
     def collaborative_filtering(graph, user_id):
