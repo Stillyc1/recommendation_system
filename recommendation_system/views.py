@@ -96,10 +96,19 @@ class RecommendationView(LoginRequiredMixin, ListView):
         return context
 
 
-class PreferenceView(ListView):
+class PreferenceView(LoginRequiredMixin, ListView):
     model = Rating
     template_name = "recommendation_system/preference_user.html"
-    context_object_name = "rating"
+    context_object_name = "ratings"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["user_genres"] = UserGenre.objects.filter(user=self.request.user)
+        context["user_films"] = UserFilm.objects.filter(user=self.request.user)
+        context["ratings"] = Rating.objects.filter(user=self.request.user)
+
+        return context
 
 
 class FilmRetrieveAPIView(RetrieveAPIView):
