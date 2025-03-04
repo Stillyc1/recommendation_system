@@ -5,168 +5,93 @@
 {% block header %}
 {% include 'recommendation_system/includes/header_menu.html' %}
 <div class="container mt-1 mb-5">
-    <div class="movie-carousel flex-grow-1">
-        <div class="row" id="movieRow">
-            <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.7;">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="shadow p-3 mb-1 bg-body-tertiary rounded"
+                 style="opacity: 0.7; max-width: 400px; margin: 0 auto;">
                 <h2>
                     Топ фильмы месяца
                 </h2>
             </div>
-            {% for film in top_5_films %}
-            <div class="col-6 col-md-3 movie-card">
-                <a href="{% url 'recommendation_system:film_detail' film.id %}" class="card mb-4 shadow-sm"
-                   style="background-color: rgba(255, 255, 255, 0.8); border: none; text-decoration: none;">
-                    <img src="{{ film.image | media_filter}}" width="175" height="130" class="card-img-top"
-                         alt="{{ movie.title }}" style="opacity: 1;">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" style="opacity: 1;">{{film.title|truncatechars:16}}</h5>
-                        <h5 class="card-title text-center" style="opacity: 1;">Рейтинг: {{film.rating}}</h5>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
+        </div>
+
+        {% for film in top_5_films %}
+        <div class="col-6 col-md-3 movie-card">
+            <a href="{% url 'recommendation_system:film_detail' film.id %}" class="card mb-4 shadow-sm"
+               style="background-color: rgba(255, 255, 255, 0.8); border: none; text-decoration: none;">
+                <img src="{{ film.image | media_filter}}" width="175" height="130" class="card-img-top"
+                     alt="{{ movie.title }}" style="opacity: 1;">
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="opacity: 1;">{{film.title|truncatechars:16}}</h5>
+                    <h5 class="card-title text-center" style="opacity: 1;">Рейтинг: {{film.rating}}</h5>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row text-center mt-5 mb-5"></div>
+    <div class="row text-center mt-5 mb-5"></div>
+
+    <div class="container text-center">
+        <div class="shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.9; max-width: 400px; margin: 0 auto;">
+            <h2>
+                Топ жанры фильмов
+            </h2>
         </div>
     </div>
-    <div class="movie-carousel flex-grow-1">
-            <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.7;">
-                <h2>
-                    Топ жанры фильмов
-                </h2>
-            </div>
-            <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.7;">
+
+    <div class="container text-center">
+        <div class="shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.9;">
+            <div class="row">
                 {% for film in top_5_genres %}
-                <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" style="opacity: 1;">{{film.name|truncatechars:16}}</h5>
-                    </div>
+                <div class="col-2 container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 1;">
+                    <h5 class="card-title text-center" style="opacity: 1;">{{film.name|truncatechars:16}}</h5>
                 </div>
                 {% endfor %}
             </div>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
-{% if not user.is_authenticated %}
-<div class="container text-center shadow p-3 mb-5 bg-body-tertiary rounded" style="opacity: 0.7;">
-    <h2>
-        Чтобы мы могли предоставить вам качественную рекомендацию,
-        пожалуйста, войдите или зарегистрируйтесь!
-    </h2>
-</div>
-{% else %}
+<div class="row text-center mt-5 mb-5"></div>
+<div class="row text-center mt-5 mb-5"></div>
+<div class="row text-center mt-5 mb-5"></div>
 <div class="row text-center mt-5 mb-5"></div>
 <div class="row text-center mt-5 mb-5"></div>
 <div class="row text-center mt-5 mb-5">
-    <div class="col-4"></div>
-    <div class="col-4">
-        <a class="btn btn-dark shiny-button" href="{% url 'recommendation_system:recommendation_film' %}">Получить рекомендацию</a>
-    </div>
-    <div class="col-4"></div>
-</div>
-
-<style>
-    .shiny-button {
-        padding: 15px 30px; /* Отступы для кнопки */
-        font-size: 18px; /* Размер шрифта */
-        border-radius: 25px; /* Скругление углов для объемного эффекта */
-        position: relative; /* Для абсолютного позиционирования псевдоэлемента */
-        overflow: hidden; /* Скрыть за пределами кнопки */
-        transition: background-color 0.3s ease; /* Плавный переход цвета фона */
-    }
-
-    .shiny-button:hover {
-        background-color: #343a40; /* Цвет фона при наведении */
-    }
-
-    .shiny-button::before {
-        content: ''; /* Псевдоэлемент перед кнопкой */
-        position: absolute;
-        top: -200%; /* Начальная позиция выше кнопки */
-        left: -200%; /* Начальная позиция слева кнопки */
-        width: 300%; /* Ширина блеска */
-        height: 300%; /* Высота блеска */
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
-        transition: transform 2.5s ease; /* Плавный переход для анимации */
-        transform: translate(0, 0); /* Начальная позиция */
-    }
-
-    .shiny-button:hover::before {
-        transform: translate(200%, 200%); /* Перемещение блеска при наведении */
-    }
-</style>
-<div class="row text-center ">
-    <div class="col-6">
-        <div class="genre-container mt-5">
-            <h3>Выберите любимые жанры фильмов</h3>
-            <form method="POST" action="{% url 'recommendation_system:home' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <select name="genre" class="form-select" required>
-                        <option value="" disabled selected>Выберите жанр</option>
-                        {% for genre in genres %}
-                        <option value="{{ genre.id }}">{{ genre.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-outline-dark mt-2">Добавить жанр</button>
-                {% if success_message == 'Жанр успешно добавлен!' %}
-                <button class="btn btn-success mt-2" disabled><i class="bi bi-check"></i> {{ success_message }}</button>
-                {% endif %}
-            </form>
+    <div class="container text-center">
+        <div class="shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.9; max-width: 400px; margin: 0 auto;">
+            <h2>
+                Ваши рекомендации
+            </h2>
         </div>
-    </div>
-
-    <div class="col-6">
-        <div class="rating-container mt-5">
-            <h3>Оцените фильм</h3>
-            <form method="POST" action="{% url 'recommendation_system:home' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <select name="film" class="form-select" required>
-                        <option value="" disabled selected>Выберите фильм</option>
-                        {% for film in films %}
-                        <option value="{{ film.id }}">{{ film.title }}</option>
-                        {% endfor %}
-                    </select>
+        <div class="shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.9;">
+            <div class="row">
+                {% for film in genres %}
+                <div class="col-2 container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 1;">
+                    <h5 class="card-title text-center" style="opacity: 1;">{{film.name|truncatechars:16}}</h5>
                 </div>
-                <div class="form-group mt-2">
-                    <label for="rating">Оценка (1-10):</label>
-                    <input type="number" name="rating" id="rating" class="form-control" min="1" max="10" required>
-                </div>
-                <button type="submit" class="btn btn-outline-dark mt-2">Добавить оценку</button>
-                {% if success_message == 'Оценка успешно добавлена!'%}
-                <button class="btn btn-success mt-2" disabled><i class="bi bi-check"></i> {{ success_message }}</button>
-                {% endif %}
-            </form>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
-<style>
-    .genre-container, .rating-container {
-        background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый цвет */
-        padding: 20px; /* Отступы для контейнера */
-        border-radius: 10px; /* Скругление углов */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Тень для объема */
-        margin-bottom: 20px; /* Отступ снизу между контейнерами */
-    }
-
-    h3 {
-        color: #333; /* Цвет заголовка */
-    }
-
-    .form-select, .form-control {
-        opacity: 1; /* Убедитесь, что элементы форм не прозрачные */
-    }
-
-    .btn-primary {
-        background-color: #007bff; /* Цвет кнопки */
-        border: none; /* Убираем границу */
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3; /* Цвет кнопки при наведении */
-    }
-</style>
-{% endif %}
+<div class="row">
+    {% for film in films %}
+    <div class="col-6 col-md-3 movie-card">
+        <a href="{% url 'recommendation_system:film_detail' film.id %}" class="card mb-4 shadow-sm"
+           style="background-color: rgba(255, 255, 255, 0.8); border: none; text-decoration: none;">
+            <img src="{{ film.image | media_filter}}" width="175" height="130" class="card-img-top"
+                 alt="{{ movie.title }}" style="opacity: 1;">
+            <div class="card-body">
+                <h5 class="card-title text-center" style="opacity: 1;">{{film.title|truncatechars:16}}</h5>
+                <h5 class="card-title text-center" style="opacity: 1;">Рейтинг: {{film.rating}}</h5>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

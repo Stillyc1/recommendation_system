@@ -96,6 +96,12 @@ class RecommendationView(LoginRequiredMixin, ListView):
         return context
 
 
+class PreferenceView(ListView):
+    model = Rating
+    template_name = "recommendation_system/preference_user.html"
+    context_object_name = "rating"
+
+
 class FilmRetrieveAPIView(RetrieveAPIView):
     """Класс представления фильма через RetrieveAPIView"""
     queryset = Film.objects.all()
