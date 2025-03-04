@@ -57,7 +57,7 @@ class HomePageView(View):
         return redirect('recommendation_system:home')  # Перенаправление на главную страницу
 
 
-class FilmDetailView(DetailView):
+class FilmDetailView(LoginRequiredMixin, DetailView):
     model = Film
     template_name = "recommendation_system/film.html"
     context_object_name = "film"
@@ -72,6 +72,28 @@ class FilmDetailView(DetailView):
                 film=self.object
             )
         return self.object
+
+
+class RecommendationView(LoginRequiredMixin, ListView):
+    model = Film
+    template_name = "recommendation_system/recommendation_film.html"
+    context_object_name = "film"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        recommendation_system = RecommendationSystem
+
+        graph = recommendation_system.build_preference_graph()
+        get_recommendations = recommendation_system.get_recommendations(graph, self.request.user.id)
+        _, sorted_pagerank = recommendation_system.calculate_pagerank(graph)
+
+        context["top_5_films"] = Film.objects.filter(title__in=sorted_pagerank["top_5_films"][:4])
+        context["top_5_genres"] = Genre.objects.filter(name__in=sorted_pagerank["top_5_genres"])
+        context["genres"] = Genre.objects.filter(name__in=get_recommendations["genres"])
+        context["films"] = Film.objects.filter(title__in=get_recommendations["films"])
+
+        return context
 
 
 class FilmRetrieveAPIView(RetrieveAPIView):

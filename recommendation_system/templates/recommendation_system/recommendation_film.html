@@ -5,80 +5,45 @@
 {% block header %}
 {% include 'recommendation_system/includes/header_menu.html' %}
 <div class="container mt-1 mb-5">
-
-    <div class="d-flex align-items-center mb-3">
-        <button class="btn btn-outline-light me-2" id="prevButton" style="opacity: 0.8;">
-            <span class="material-icons">Назад</span>
-        </button>
-
-        <div class="movie-carousel flex-grow-1">
-            <div class="row" id="movieRow">
-                <!-- Здесь будут карточки фильмов -->
-                {% for film in films %}
-                <div class="col-6 col-md-3 movie-card">
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'recommendation_system:film_detail' film.id %}" class="card mb-4 shadow-sm"
-                       style="background-color: rgba(255, 255, 255, 0.8); border: none; text-decoration: none;">
-                        <img src="{{ film.image | media_filter}}" width="175" height="130" class="card-img-top"
-                             alt="{{ movie.title }}" style="opacity: 1;">
-                        <div class="card-body">
-                            <h5 class="card-title text-center" style="opacity: 1;">{{film.title|truncatechars:16}}</h5>
-                        </div>
-                    </a>
-                    {% else %}
-                    <div class="card mb-4 shadow-sm"
-                         style="background-color: rgba(255, 255, 255, 0.8); border: none; text-decoration: none;">
-                        <img src="{{ film.image | media_filter}}" width="175" height="130" class="card-img-top"
-                             alt="{{ movie.title }}" style="opacity: 1;">
-                        <div class="card-body">
-                            <h5 class="card-title text-center" style="opacity: 1;">{{film.title|truncatechars:16}}</h5>
-                        </div>
+    <div class="movie-carousel flex-grow-1">
+        <div class="row" id="movieRow">
+            <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.7;">
+                <h2>
+                    Топ фильмы месяца
+                </h2>
+            </div>
+            {% for film in top_5_films %}
+            <div class="col-6 col-md-3 movie-card">
+                <a href="{% url 'recommendation_system:film_detail' film.id %}" class="card mb-4 shadow-sm"
+                   style="background-color: rgba(255, 255, 255, 0.8); border: none; text-decoration: none;">
+                    <img src="{{ film.image | media_filter}}" width="175" height="130" class="card-img-top"
+                         alt="{{ movie.title }}" style="opacity: 1;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" style="opacity: 1;">{{film.title|truncatechars:16}}</h5>
+                        <h5 class="card-title text-center" style="opacity: 1;">Рейтинг: {{film.rating}}</h5>
                     </div>
-                    {% endif %}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="movie-carousel flex-grow-1">
+            <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.7;">
+                <h2>
+                    Топ жанры фильмов
+                </h2>
+            </div>
+            <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded" style="opacity: 0.7;">
+                {% for film in top_5_genres %}
+                <div class="container text-center shadow p-3 mb-1 bg-body-tertiary rounded">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" style="opacity: 1;">{{film.name|truncatechars:16}}</h5>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
-        </div>
-
-        <button class="btn btn-outline-light ms-2" id="nextButton" style="opacity: 0.8;">
-            <span class="material-icons">Вперед</span>
-        </button>
     </div>
 </div>
-
-<script>
-    let currentIndex = 0; // Начальный индекс
-    const moviesPerPage = 4; // Количество фильмов на странице
-    const movieCards = document.querySelectorAll('.movie-card'); // Все карточки фильмов
-
-    function showMovies() {
-        // Скрыть все карточки
-        movieCards.forEach((card, index) => {
-            if (index >= currentIndex && index < currentIndex + moviesPerPage) {
-                card.style.display = 'block'; // Показать карточки для текущей страницы
-            } else {
-                card.style.display = 'none'; // Скрыть остальные
-            }
-        });
-    }
-
-    document.getElementById('prevButton').addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex -= moviesPerPage; // Уменьшаем индекс
-            showMovies(); // Обновляем отображение
-        }
-    });
-
-    document.getElementById('nextButton').addEventListener('click', () => {
-        if (currentIndex + moviesPerPage < movieCards.length) {
-            currentIndex += moviesPerPage; // Увеличиваем индекс
-            showMovies(); // Обновляем отображение
-        }
-    });
-
-    // Инициализация отображения
-    showMovies();
-</script>
 {% endblock %}
 
 {% block content %}
