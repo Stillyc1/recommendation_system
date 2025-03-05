@@ -116,7 +116,7 @@ class PreferenceCreateAPIViewTestCase(APITestCase):
         self.client = APIClient()
         User = get_user_model()
         self.user = User.objects.create_user(username='testuser', password='12345')
-        self.client.login(username='testuser', password='12345')
+        self.client.force_authenticate(user=self.user)
 
         self.genre = Genre.objects.create(name='Action')
         self.film = Film.objects.create(title='Test Film', description='Test Description',
@@ -150,7 +150,7 @@ class RecommendationAPIViewTestCase(APITestCase):
         self.client = APIClient()
         User = get_user_model()
         self.user = User.objects.create_user(username='testuser', password='12345')
-        self.client.login(username='testuser', password='12345')
+        self.client.force_authenticate(user=self.user)
 
         self.genre = Genre.objects.create(name='Action')
         self.film = Film.objects.create(title='Test Film', description='Test Description',
@@ -170,7 +170,7 @@ class RecommendationStatisticsAPIViewTestCase(APITestCase):
         self.client = APIClient()
         User = get_user_model()
         self.user = User.objects.create_user(username='testuser', password='12345')
-        self.client.login(username='testuser', password='12345')
+        self.client.force_authenticate(user=self.user)
 
     def test_get_recommendation_statistics(self):
         """Тестируем получение статистики рекомендаций."""
