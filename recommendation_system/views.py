@@ -146,22 +146,6 @@ class FilmRetrieveAPIView(RetrieveAPIView):
         return Response(self.get_serializer(instance).data)
 
 
-# class GenreRetrieveAPIView(RetrieveAPIView):
-#     """Класс представления жанра фильма через RetrieveAPIView"""
-#     queryset = Genre.objects.all()
-#     serializer_class = GenreSerializer
-#
-#     def retrieve(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#
-#         UserGenre.objects.create(
-#             user=request.user,
-#             genre=instance,
-#         )
-#
-#         return Response(self.get_serializer(instance).data)
-
-
 class PreferenceCreateAPIView(CreateAPIView):
     """Класс представления для добавления предпочтений пользователю"""
     permission_classes = [IsAuthenticated]
