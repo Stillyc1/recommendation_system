@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from recommendation_system.models import Film, UserFilm, Genre, UserGenre, Rating, RecommendationStatistics
-from recommendation_system.serializers import FilmSerializer, RatingSerializer, GenreSerializer, UserFilmSerializer, \
+from recommendation_system.serializers import FilmSerializer, RatingSerializer, UserFilmSerializer, \
     UserGenreSerializer
 from recommendation_system.services import RecommendationSystem
 
@@ -167,7 +167,7 @@ class PreferenceCreateAPIView(CreateAPIView):
         else:
             return Response({
                 "error": "Укажите предпочтения: 'rating', 'film' или 'genre' или 'film'."
-                },
+            },
                 status=status.HTTP_400_BAD_REQUEST)
 
         if serializer.is_valid():
