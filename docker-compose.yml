@@ -27,7 +27,7 @@ services:
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
-      - DATABASE_URL=postgres://${USER}:${PASSWORD}@postgres:${PORT}/${NAME}
+      - DATABASE_URL=postgres://${USER}:@postgres:${PORT}/${NAME}
     depends_on:
       - postgres
       - redis
