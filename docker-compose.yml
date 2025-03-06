@@ -4,7 +4,6 @@ services:
     environment:
       POSTGRES_DB: ${NAME}
       POSTGRES_USER: ${USER}
-      POSTGRES_PASSWORD: ${PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
