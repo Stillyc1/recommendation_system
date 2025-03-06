@@ -93,8 +93,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}
+            git checkout feature/project-implementation
             git pull
             sudo docker-compose pull
             sudo docker-compose down
             sudo docker-compose up -d --build
+            sudo docker-compose exec postgres poetry run python manage.py migrate
           EOF
