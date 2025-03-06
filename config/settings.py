@@ -101,8 +101,7 @@ else:
             'NAME': os.getenv('NAME'),
             'USER': os.getenv('USER'),
             'HOST': os.getenv('HOST'),
-            'PORT': os.getenv('PORT'),
-            'PASSWORD': os.getenv('PASSWORD')
+            'PORT': os.getenv('PORT')
         }
     }
 
