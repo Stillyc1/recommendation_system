@@ -4,6 +4,7 @@ services:
     environment:
       POSTGRES_DB: ${NAME}
       POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -27,7 +28,7 @@ services:
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
-      - DATABASE_URL=postgres://${USER}:@postgres:${PORT}/${NAME}
+      - DATABASE_URL=postgres://${USER}:${PASSWORD}@postgres:${PORT}/${NAME}
     depends_on:
       - postgres
       - redis
