@@ -31,9 +31,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", False) == "True"
 
-ALLOWED_HOSTS = ["http://158.160.165.67/"]
+ALLOWED_HOSTS = ["158.160.165.67", 'django', 'localhost', '127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS = ["http://158.160.165.67/"]
+CSRF_TRUSTED_ORIGINS = ["http://158.160.165.67"]
 # Application definition
 
 INSTALLED_APPS = [
