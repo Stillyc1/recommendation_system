@@ -1,0 +1,29 @@
+{% extends 'recommendation_system/includes/basic_design.html' %}
+{% load my_tags %}
+{% block title %}Главная страница{% endblock %}
+
+{% block header %}
+{% include 'recommendation_system/includes/header_menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container text-center shadow p-3 mt-3 mb-5 bg-body-tertiary rounded" style="opacity: 0.7;">
+    <h2>Статистика рекомендаций</h2>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th class="col-2">Дата рекомендации</th>
+            <th>Статистика</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for statistic in statistics %}
+            <tr>
+                <td class="col-2">{{statistic.timestamp}}</td>
+                <td>Вам рекомендовали {{statistic.film_count}} фильмов и {{statistic.genre_count}} жанров.</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'recommendation_system/includes/basic_design.html' %}
+{% load my_tags %}
+{% block title %}Главная страница{% endblock %}
+
+{% block header %}
+{% include 'recommendation_system/includes/header_menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container text-center shadow p-3 mt-3 mb-5 bg-body-tertiary rounded" style="opacity: 0.7;">
+    <h2>Ваши предпочтения</h2>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th>Жанры</th>
+            <th>Фильмы</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <ul>
+                    {% for genre in user_genres %}
+                    <li>{{ genre.genre.name }}</li>
+                    {% empty %}
+                    <li>Нет жанров</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Вы посмотрели</th>
+                        <th>Ваша оценка</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for film in user_films %}
+                    <tr>
+                        <td>{{ film.film.title }}</td>
+                        <td>
+                            {% for rating in ratings %}
+                                {% if film.film.id == rating.film.id %}
+                                    {{ rating.rating }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
