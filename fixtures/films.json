@@ -1,0 +1,142 @@
+[
+    {
+        "model": "recommendation_system.film",
+        "pk": 1,
+        "fields": {
+            "title": "Фильм 1",
+            "description": "Описание фильма 1",
+            "release_date": "2023-01-01",
+            "genre": 1,
+            "director": "Режиссер 1",
+            "rating": 8.5,
+            "created_at": "2023-01-01T12:00:00Z",
+            "updated_at": "2023-01-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 2,
+        "fields": {
+            "title": "Фильм 2",
+            "description": "Описание фильма 2",
+            "release_date": "2023-02-01",
+            "genre": 2,
+            "director": "Режиссер 2",
+            "rating": 7.0,
+            "created_at": "2023-02-01T12:00:00Z",
+            "updated_at": "2023-02-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 3,
+        "fields": {
+            "title": "Фильм 3",
+            "description": "Описание фильма 3",
+            "release_date": "2023-03-01",
+            "genre": 3,
+            "director": "Режиссер 3",
+            "rating": 9.0,
+            "created_at": "2023-03-01T12:00:00Z",
+            "updated_at": "2023-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 4,
+        "fields": {
+            "title": "Фильм 4",
+            "description": "Описание фильма 4",
+            "release_date": "2023-04-01",
+            "genre": 1,
+            "director": "Режиссер 4",
+            "rating": 6.5,
+            "created_at": "2023-04-01T12:00:00Z",
+            "updated_at": "2023-04-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 5,
+        "fields": {
+            "title": "Фильм 5",
+            "description": "Описание фильма 5",
+            "release_date": "2023-05-01",
+            "genre": 2,
+            "director": "Режиссер 5",
+            "rating": 7.5,
+            "created_at": "2023-05-01T12:00:00Z",
+            "updated_at": "2023-05-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 6,
+        "fields": {
+            "title": "Фильм 6",
+            "description": "Описание фильма 6",
+            "release_date": "2023-06-01",
+            "genre": 3,
+            "director": "Режиссер 6",
+            "rating": 8.0,
+            "created_at": "2023-06-01T12:00:00Z",
+            "updated_at": "2023-06-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 7,
+        "fields": {
+            "title": "Фильм 7",
+            "description": "Описание фильма 7",
+            "release_date": "2023-07-01",
+            "genre": 1,
+            "director": "Режиссер 7",
+            "rating": 9.5,
+            "created_at": "2023-07-01T12:00:00Z",
+            "updated_at": "2023-07-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 8,
+        "fields": {
+            "title": "Фильм 8",
+            "description": "Описание фильма 8",
+            "release_date": "2023-08-01",
+            "genre": 2,
+            "director": "Режиссер 8",
+            "rating": 5.5,
+            "created_at": "2023-08-01T12:00:00Z",
+            "updated_at": "2023-08-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 9,
+        "fields": {
+            "title": "Фильм 9",
+            "description": "Описание фильма 9",
+            "release_date": "2023-09-01",
+            "genre": 3,
+            "director": "Режиссер 9",
+            "rating": 7.8,
+            "created_at": "2023-09-01T12:00:00Z",
+            "updated_at": "2023-09-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "recommendation_system.film",
+        "pk": 10,
+        "fields": {
+            "title": "Фильм 10",
+            "description": "Описание фильма 10",
+            "release_date": "2023-10-01",
+            "genre": 1,
+            "director": "Режиссер 10",
+            "rating": null,
+            "created_at": "2023-10-01T12:00:00Z",
+            "updated_at": "2023-10-01T12:00:00Z"
+        }
+    }
+]

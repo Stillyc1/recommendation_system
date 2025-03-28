@@ -1,0 +1,30 @@
+{% extends 'recommendation_system/includes/basic_design.html' %}
+{% load my_tags %}
+{% block title %}Главная страница{% endblock %}
+
+{% block header %}
+{% include 'recommendation_system/includes/header_menu.html' %}
+
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="row text-center" >
+    <div class="card mb-4 box-shadow" style="background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+        <div class="card-header">
+            <img src="{{film.image | media_filter}}" width="250" height="250">
+            <h1 class="my-0 font-weight-normal">{{ film.title }}</h1>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                <li>- Жанр: {{film.genre}}</li>
+                <li>- Дата релиза: {{film.release_date | date:"d M Y"}}</li>
+                <li>- Режиссёр: {{film.director}}</li>
+                <li>- Рейтинг: {{film.rating}}</li>
+            </ul>
+            <h2 class="card-title pricing-card-title">{{film.description|truncatechars:250}}</h2>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
